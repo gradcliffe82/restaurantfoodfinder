@@ -1,0 +1,64 @@
+{%load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <script src="{% static '/javascript/jquery-3.7.1.min.js' %}"></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Anton+SC&display=swap" rel="stylesheet">
+        <style>
+@import url('https://fonts.googleapis.com/css2?family=Anton+SC&display=swap');
+</style>
+        <title>Find Food Application</title>
+        {% load bootstrap5 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        {% load static %}
+        {% csrf_token %}
+        <script>
+            const csrftoken2 = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        </script>
+        <script>
+
+        </script>
+
+        <script src="{% static '/javascript/module1.js' %}"></script>
+    </head>
+
+    <body class="bods">
+    <div>
+        <header class="header static ">
+            <div class="container-fluid ">
+                <div class="row align-items-center ">
+                    <h1 class="restaurant anton-sc-regular col-3 text-center">FIND OPEN RETAURANT!</h1>
+                    <div class="col-6 h-100 te"
+                        ><span class="align-bottom "
+                        ><input type="search" placeholder="Search.." class="form-control form-control-sm searchbar ">
+                        </span>
+                    </div>
+                    <div class="col-3"> </div>
+                </div>
+            </div>
+
+
+        </header>
+        {% block homepageview %} {% endblock %}
+        <footer class="footer static">
+            {% if request.resolver_match.url_name != 'index' %}
+                <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                   href="{%url 'index' %}">Go back to Homepage</a>
+            {% else %}
+                <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                   >A Gene Radcliffe Web Application</a>
+            {% endif %}
+
+        </footer>
+
+     </div>
+    </body>
+
+</html>
