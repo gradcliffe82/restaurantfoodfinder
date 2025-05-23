@@ -3,6 +3,7 @@ import datetime
 from django.db import models
 from datetime import datetime as dt
 import logging
+from zoneinfo import ZoneInfo
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -27,7 +28,7 @@ class Restaurants(models.Model):
 
     def find_open_restaurants(self, qry_timestamp):
         # convert timestamp to datetime
-        qry_datetime = dt.fromtimestamp(int(qry_timestamp))
+        qry_datetime = dt.fromtimestamp(int(qry_timestamp), tz=ZoneInfo("America/New_York"))
         # get restaurants open today
         op_weekday = self.weekday_dictionary[qry_datetime.weekday()]
         restaurants = Restaurants.objects.filter(restaurant_ops__days_open__contains=[op_weekday])

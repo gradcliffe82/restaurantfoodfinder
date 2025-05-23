@@ -29,7 +29,6 @@ parser = {
 }
 MON = "MON"
 TUE = "TUE"
-TUES = "TUES"
 WED = "WED"
 THU = "THU"
 FRI = "FRI"
@@ -69,7 +68,6 @@ def create_operating_days_range(operational_days, days_open: list):
     operational_week = {
         "MON": 0,
         "TUE": 1,
-        "TUES":1,
         "WED": 2,
         "THU": 3,
         "FRI": 4,
