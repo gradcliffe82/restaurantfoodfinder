@@ -22,25 +22,28 @@ class HomePage(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context['latest_posts'] = Post.objects.order_by("-post_date")
-
         return context
 
 
 class RestaurantsView(View):
+    error_message = {"error": ""}
+
     def get(self, request: HttpRequest, *args, **kwargs):
         approved_params = ["timestamp"]
 
         params = list(request.GET.keys())
 
         test_for_approved_params = [x for x in params if x not in approved_params]
+
         if len(test_for_approved_params)>0:
-            return HttpResponseBadRequest("Bad request.")
+            self.error_message['error'] = "Bad Request, invalid parameter found."
+            return JsonResponse(self.error_message, status=400)
 
         try:
             timestamp = request.GET.dict()['timestamp']
         except Exception as ex:
-            return HttpResponseBadRequest(render(request, "400.html"))
+            self.error_message['error'] = "Bad Request, no valid parameter found."
+            return JsonResponse(self.error_message, status=400)
 
         # check formatting
         et_zone = ZoneInfo("America/New_York")
@@ -58,7 +61,8 @@ class RestaurantsView(View):
             timestamp = dt.strptime(timestamp, dt_format)
 
         else:
-            return HttpResponseBadRequest(render(request, "400.html"))
+            self.error_message['error'] = "Bad Request, invalid parameter value."
+            return JsonResponse(self.error_message, status=400)
 
         # find open restaurants
         restaurants = Restaurants().find_open_restaurants(qry_timestamp=timestamp)
@@ -72,3 +76,7 @@ class RestaurantsView(View):
 
         data = {"open_restaurants": result_list, "total": len(result_list)}
         return JsonResponse(data)
+
+
+def bad_request(request):
+    return HttpResponseBadRequest(render(request, "400.html"))

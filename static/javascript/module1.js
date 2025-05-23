@@ -84,8 +84,10 @@ async function httpRequest(urlEndpoint, method, payload){
     const test = await fetch(request)
     .then((response)=>{
         if(!response.ok){
-
             throw new Error(`Unexpected error occured. HTTP Status: ${response.status}`);
+        }
+        if(response.status == 400){
+            console.log(response.status)
         }
 
         return response.json()
