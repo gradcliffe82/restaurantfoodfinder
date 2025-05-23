@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "foodfinder.apps.FoodfinderConfig",
+    "restaurantfinder.apps.RestaurantfinderConfig",
     "bootstrap5",
 ]
 
@@ -84,11 +84,11 @@ WSGI_APPLICATION = "restaurants.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ["psql_database"],
-        'USER': os.environ["psql_username"],
-        'PASSWORD': os.environ["psql_user_password"],
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.environ["db_name"],
+        'USER': os.environ["db_username"],
+        'PASSWORD': os.environ["db_password"],
+        'HOST': os.environ["host_name"],
+        'PORT': os.environ["host_port"],
     }
 }
 
