@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block homepageview %}
 <div class="container-lg ">
-    <p>This application will find an open restaurant based on the current time!</p>
+    <p class="instructions">This application will find an open restaurant based on the current time!</p>
+    <div id="clock"></div>
+    <div><input type="text" placeholder="Enter text here"></div>
     <button onclick="find_open_restaurants()">Click me to find open restaurants!</button>
     <div id="open-restaurants">
      <ul id="open-restaurants-list"></ul>
