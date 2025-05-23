@@ -2,6 +2,7 @@ import re
 import psycopg2
 import logging
 import csv
+import json
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -170,7 +171,7 @@ def write_record(connection, restaurant_name, op_data):
 
     cursor = connection.cursor()
     try:
-        cursor.execute("""INSERT INTO restaurants (restaurant_operational_hours) VALUES (%s)""", (json.dumps(op_data),))
+        cursor.execute("""INSERT INTO restaurantfinder_restaurants (restaurant_ops) VALUES (%s)""", (json.dumps(op_data),))
         connection.commit()
     except Exception as ex:
         logger.error(f"An error occurred while writing row. {ex}")
@@ -210,3 +211,5 @@ def main():
 
 if __name__ == '__main__':
    main()
+
+# See PyCharm help at https://www.jetbrains.com/help/pycharm/
