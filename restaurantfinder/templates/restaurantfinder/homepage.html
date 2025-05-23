@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% block homepageview %}
 <div class="container-lg ">
-    <button onclick="httpRequest('/search/?timestamp=1747969200', 'GET', '')">Search</button>
+    <p>This application will find an open restaurant based on the current time!</p>
+    <button onclick="find_open_restaurants()">Click me to find open restaurants!</button>
+    <div id="open-restaurants">
+     <ul id="open-restaurants-list"></ul>
+    </div>
 </div>
+
 {% endblock %}

@@ -1,0 +1,109 @@
+
+
+html * {
+    font-family: Arial, Helvetica, sans-serif !important;
+
+}
+.andromeda {
+    text-shadow: 2px 2px 1px #5d737e ;
+    color: #fff
+}
+.post-user-icon{
+    color:#5d737e
+}
+
+.searchbar {
+    border-radius: 50px !important;
+}
+.roundeddiv {
+    border-radius: 15px !important;
+}
+.post-user-icon-svg{
+    border-radius: 50px !important;
+    border-style: solid;
+    border-color: #02111b;
+    color: #02111b;
+    height: 60px;
+    width: 60px;
+}
+.bods {
+background-color: #3f4045;
+
+}
+.post-card
+{
+    background-color:#5d737e;
+}
+.links{
+color: #d6d6d6;
+text-decoration: none;
+}
+a:link{
+    color: #f5f5f5;
+    text-decoration: none;
+}
+a:visited{
+    color: #f5f5f5;
+    text-decoration: none;
+}
+a:hover{
+    color: #f5f5f5;
+    text-decoration: none;
+}
+a:active{
+    color: #f5f5f5;
+    text-decoration: none;
+}
+p{
+    color:#212930
+}
+#hero{
+    color:  #154360;
+    padding-top: 50px;
+    text-align: center;
+    text-shadow: 1px 1px 2px #5d6d7e ;
+}
+
+header.static{
+    margin: auto;
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: 90px;
+}
+
+
+footer{
+   text-align: center;
+
+}
+
+
+footer.static{
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+}
+.detailtitle{
+    color: #1b2631;
+    text-shadow: 1px 1px 2px #cbb2b9;
+}
+.taskname{
+    color: #154360;
+    text-shadow: 1px 1px 2px #eaecee;
+}
+
+
+
+
+.anton-sc-regular{
+  font-family: "Anton SC", serif !important;
+  font-weight: 400;
+  font-style: normal;
+  padding: 10px
+}
+
+.test{
+
+}

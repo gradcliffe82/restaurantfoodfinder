@@ -1,5 +1,4 @@
 
-
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -17,9 +16,22 @@ function getCookie(name) {
     return cookieValue;
 }
 const csrftoken = getCookie('csrftoken');
-function test(){
-    console.log("Hello")
+
+async function find_open_restaurants(){
+
+    const timestamp_in_sec = 1747666860// Math.floor(Date.now() / 1000);
+    const open_restaurants_list = document.querySelector("#open-restaurants-list")
+    var endpoint = `search?timestamp=${timestamp_in_sec}`
+    const result = await httpRequest(endpoint, 'GET', null)
+    console.log(result)
+    result.open_restaurants.forEach(item=>{
+        console.log(item)
+        const list_item = document.createElement('li')
+        list_item.textContent = item
+        open_restaurants_list.appendChild(list_item)
+    })
 }
+
 async function httpRequest(urlEndpoint, method, payload){
      var baseURL = `http://127.0.0.1:8000/home/restaurantfinder`
      var endpoint = urlEndpoint
@@ -34,27 +46,22 @@ async function httpRequest(urlEndpoint, method, payload){
         }
     );
 
-    fetch(request)
+    const test = await fetch(request)
     .then((response)=>{
         if(!response.ok){
             return Promise.reject(response)
         }
-        if(response.ok){
-            return response
-        }
 
+        return response.json()
     })
-    .then((response)=>{
-        console.log(response)
-        const data = response.text()
+    .then(data=>{
         if(method == 'GET'){
-        console.log(data)
             return data
         }
-
     })
     .catch((error)=>{
         console.log("error")
     });
 
+    return test
 }
