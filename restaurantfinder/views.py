@@ -1,4 +1,5 @@
-from django.http import HttpResponseNotFound, HttpRequest, HttpResponseServerError
+from django.http import HttpResponseBadRequest, HttpRequest
+from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import BadRequest
 from django.views import View
@@ -9,6 +10,7 @@ from restaurantfinder.models import Restaurants
 from dateutil import parser
 from datetime import datetime as dt
 from zoneinfo import ZoneInfo
+from django.shortcuts import redirect
 import re
 
 from django.core.exceptions import ValidationError, PermissionDenied
@@ -28,24 +30,25 @@ class HomePage(TemplateView):
 class RestaurantsView(View):
     def get(self, request: HttpRequest, *args, **kwargs):
         approved_params = ["timestamp"]
-#1747929600 "2025-05-23T10:23:00Z"
-    #
+
         params = list(request.GET.keys())
 
         test_for_approved_params = [x for x in params if x not in approved_params]
         if len(test_for_approved_params)>0:
-            raise BadRequest("Bad Request. Invalid parameters found.")
+            return HttpResponseBadRequest("Bad request.")
 
         try:
             timestamp = request.GET.dict()['timestamp']
         except Exception as ex:
-            raise BadRequest("Bad Request. Parameter not found")
+            return HttpResponseBadRequest(render(request, "400.html"))
+
         # check formatting
         et_zone = ZoneInfo("America/New_York")
         if re.search(pattern=r"^\d{10}$", string=timestamp):
             # matches epoch timestamps, ex: 1747929600
             timestamp = dt.fromtimestamp(int(timestamp), tz=et_zone)
         elif re.search(pattern=r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(Z|[\+\-]\d{2}:\d{2})$", string=timestamp):
+            # matches 2025-05-23T10:23:00Z | 2025-05-23T10:23:00+05:30 | 2025-05-23T10:23:00-07:00
             parsed_dt = parser.isoparse(timestamp)
             timestamp = parsed_dt.astimezone(et_zone)
 
@@ -55,7 +58,8 @@ class RestaurantsView(View):
             timestamp = dt.strptime(timestamp, dt_format)
 
         else:
-            raise BadRequest("Bad Request. Invalid Timestamp")
+            return HttpResponseBadRequest(render(request, "400.html"))
+
         # find open restaurants
         restaurants = Restaurants().find_open_restaurants(qry_timestamp=timestamp)
         if restaurants is None:

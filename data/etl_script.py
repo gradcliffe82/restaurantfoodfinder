@@ -201,7 +201,7 @@ def main():
                 restaurant_operation.update(parse_operating_days(row['Hours']))
                 restaurant_operation.update(parse_operating_time(row['Hours']))
                 write_record(connection, row['Restaurant Name'], restaurant_operation)
-                write_record(connection, row['Restaurant Name'], restaurant_operation)
+
 
 
         print(tot_lines)

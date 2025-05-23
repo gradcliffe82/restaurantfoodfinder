@@ -45,15 +45,22 @@ a:active{
     color: #f5f5f5;
     text-decoration: none;
 }
-p{
+old_p{
     color:#212930
 }
+p{
+    color: white;
+}
+.no-open-restaurants{
+    color: red;
+ }
 #hero{
     color:  #154360;
     padding-top: 50px;
     text-align: center;
     text-shadow: 1px 1px 2px #5d6d7e ;
 }
+label{color: white}
 
 header.static{
     margin: auto;
@@ -95,9 +102,6 @@ footer.static{
   padding: 10px
 }
 
-.instructions{
-    color: white !important;
-}
 ul{
 color: white !important;
 }

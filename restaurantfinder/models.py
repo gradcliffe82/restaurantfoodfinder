@@ -40,6 +40,8 @@ class Restaurants(models.Model):
                 closed_restaurants.append(restaurant.id)
 
         open_restaurants = restaurants.exclude(id__in=closed_restaurants)
+        if open_restaurants.count() == 0:
+            return None
 
         return open_restaurants
 

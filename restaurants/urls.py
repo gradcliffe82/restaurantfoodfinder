@@ -17,7 +17,12 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from django.shortcuts import render
 
+def custom_bad_request_view(request, exception):
+    return render(request, "400.html", status=400)
+
+handler400 = custom_bad_request_view
 urlpatterns = [
     path("home/", include("restaurantfinder.urls")),
     path("admin/", admin.site.urls),
