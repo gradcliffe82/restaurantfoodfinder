@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block homepageview %}
 <div class="container-lg ">
-    <button>Test</button>
+    <button onclick="httpRequest('/search/?timestamp=1747969200', 'GET', '')">Search</button>
 </div>
 {% endblock %}

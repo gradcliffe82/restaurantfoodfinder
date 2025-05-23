@@ -17,31 +17,11 @@ function getCookie(name) {
     return cookieValue;
 }
 const csrftoken = getCookie('csrftoken');
-
-
-
-async function newPost(){
-    const post_msg = document.querySelector("#post");
-    const value = post_msg.value
-    const payloadData = {data: value}
-    const payload = JSON.stringify(payloadData)
-
-    var endpointURL = 'home/post/new'
-    httpRequest(endpointURL, 'POST', payload)
-    setTimeout(()=>{
-        location.reload(true)
-        console.log(event);
-        }, 500)
-
+function test(){
+    console.log("Hello")
 }
-
-async function reply(element, event){
-    var el = event.target.id
-
-}
-
 async function httpRequest(urlEndpoint, method, payload){
-     var baseURL = `http://127.0.0.1:8000`
+     var baseURL = `http://127.0.0.1:8000/home/restaurantfinder`
      var endpoint = urlEndpoint
      var url = `${baseURL}/${endpoint}`
 
