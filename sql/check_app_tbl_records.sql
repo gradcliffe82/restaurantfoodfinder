@@ -1,0 +1,1 @@
+select count(*) 'restaurantfinder_restaurants'

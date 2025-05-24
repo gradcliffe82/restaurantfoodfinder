@@ -5,6 +5,7 @@ import logging
 import csv
 import json
 import sys
+import os
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -129,7 +130,9 @@ def connect_db():
     """
 
     try:
-        connection = psycopg2.connect(database="andromeda", user='postgres', password='2010@Wesley2010', host="localhost", port=5432)
+        connection = psycopg2.connect(database=os.environ['DATABASE_NAME'], user=os.environ['DATABASE_USERNAME'],
+                                      password=os.environ['DATABASE_PASSWORD'], host=os.environ['DATABASE_HOST'],
+                                      port=os.environ['DATABASE_PORT'])
         return connection
     except Exception as ex:
         logger.error(f"An error occurred while attempting to connect: {ex}")

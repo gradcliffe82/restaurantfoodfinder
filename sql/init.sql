@@ -10,7 +10,7 @@ CREATE TABLE "restaurants_raw"
 );
 COPY restaurants_raw("Restaurant Name", "Hours")
 
-FROM '/tmp/restaurants.csv'
+FROM '/docker-entrypoint-initdb.d/restaurants.csv'
 DELIMITER ',' CSV HEADER;
 COMMIT;
 
