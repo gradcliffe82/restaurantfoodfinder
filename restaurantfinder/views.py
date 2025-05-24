@@ -1,7 +1,6 @@
 from django.http import HttpResponseBadRequest, HttpRequest
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from django.core.exceptions import BadRequest
+from django.http import JsonResponse
 from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -10,7 +9,6 @@ from restaurantfinder.models import Restaurants
 from dateutil import parser
 from datetime import datetime as dt
 from zoneinfo import ZoneInfo
-from django.shortcuts import redirect
 import re
 
 from django.core.exceptions import ValidationError, PermissionDenied
@@ -35,14 +33,14 @@ class RestaurantsView(View):
 
         test_for_approved_params = [x for x in params if x not in approved_params]
 
-        if len(test_for_approved_params)>0:
+        if len(test_for_approved_params) > 0:
             self.error_message['error'] = "Bad Request, invalid parameter found."
             return JsonResponse(self.error_message, status=400)
 
         try:
             timestamp = request.GET.dict()['timestamp']
         except Exception as ex:
-            self.error_message['error'] = "Bad Request, no valid parameter found."
+            self.error_message['error'] = f"Bad Request, no valid parameter found: {ex}"
             return JsonResponse(self.error_message, status=400)
 
         # check formatting

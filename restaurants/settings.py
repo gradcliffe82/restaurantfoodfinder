@@ -20,12 +20,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-@f&jnkmh(8h%33q&*krp^c!0_9il*9a-u6-7kqji-feaqsf9kg"
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
+#"django-insecure-@f&jnkmh(8h%33q&*krp^c!0_9il*9a-u6-7kqji-feaqsf9kg"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.environ.get("DEBUG", default=1))
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS","127.0.0.1").split(",")
+# ["*"]
 
 
 # Application definition
@@ -85,11 +87,11 @@ WSGI_APPLICATION = "restaurants.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ["db_name"],
-        'USER': os.environ["db_username"],
-        'PASSWORD': os.environ["db_password"],
-        'HOST': os.environ["host_name"],
-        'PORT': os.environ["host_port"],
+        'NAME': os.environ["DB_NAME"],
+        'USER': os.environ["DB_USERNAME"],
+        'PASSWORD': os.environ["DB_PASSWORD"],
+        'HOST': os.environ["HOST_NAME"],
+        'PORT': os.environ["HOST_PORT"],
     }
 }
 

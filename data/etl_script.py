@@ -1,8 +1,10 @@
 import re
 import psycopg2
+import psycopg2.extras
 import logging
 import csv
 import json
+import sys
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -62,8 +64,6 @@ def create_op_time_range(time_data, time_range_list: list):
 def create_operating_days_range(operational_days, days_open: list):
     """
 
-    :param operational_days:
-    :return:
     """
     operational_week = {
         "MON": 0,
@@ -132,17 +132,7 @@ def connect_db():
         connection = psycopg2.connect(database="andromeda", user='postgres', password='2010@Wesley2010', host="localhost", port=5432)
         return connection
     except Exception as ex:
-        logger.error("An error occurred while attempting to connect.")
-
-
-def create_db(connection):
-    statement = "CREATE database RESTAURANTS"
-    cursor = connection.cursor()
-    try:
-        cursor.execute(statement)
-        connection.commit()
-    except Exception as ex:
-        logger.error("An error occurred while creating database")
+        logger.error(f"An error occurred while attempting to connect: {ex}")
 
 
 def create_table(connection):
@@ -157,14 +147,12 @@ def create_table(connection):
         cursor.execute(statement)
         connection.commit()
     except Exception as ex:
-        logger.error("An error occurred while creating table")
+        logger.error(f"An error occurred while creating table: {ex}")
 
 
 def write_record(connection, restaurant_name, op_data):
     """
     Writes a record to the table
-    :param row:
-    :return:
     """
 
     cursor = connection.cursor()
@@ -175,36 +163,62 @@ def write_record(connection, restaurant_name, op_data):
         logger.error(f"An error occurred while writing row. {ex}")
 
 
+def get_all_records(connection):
+    """
+    executes an sql statement and retrieves records from table, restaurants_raw
+    """
+
+    cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    try:
+        cursor.execute("""SELECT * FROM restaurants_raw""")
+        return cursor.fetchall()
+    except Exception as ex:
+        logger.error(f"An error occurred while retrieving records. {ex}")
+
+
 def main():
 
+    approved_params = ["-csv", "-rawtable", "-help", "-h"]
     connection = connect_db()
     # create_table(connection)
+    raw_args = sys.argv[1:]
+    proc_args = [r for r in raw_args if r in approved_params]
+    if len(proc_args) > 1:
+        raise Exception("Too many parameters.")
+    if len(proc_args) == 0:
+        raise Exception("No valid parameters selected.")
 
-    file_name = "restaurants.csv"
+    if "-help" in raw_args or "-h" in raw_args:
+        print("Approved arguments: \n"
+              "\t -h or -help: prints manual\n"
+              "\t -csv: read from csv file\n"
+              "\t -readtable: read from raw table"
+              "\t You can only read either from the csv or the table")
+    if "-csv" in raw_args:
+        file_name = "/tmp/restaurants.csv"
+        csv_file = open(file_name, 'r')
+        records = csv.DictReader(csv_file)
+    if "-rawtable" in raw_args:
+        records = get_all_records(connection)
 
-    with open(file_name, 'r') as csv_file:
-        csv_reader = csv.DictReader(csv_file)
-        tot_lines = 0
-
-        for row in csv_reader:
-            tot_lines += 1
-            multiple_op_hours = row['Hours'].split("/")
-            if len(multiple_op_hours)>1:
-                for op_hours in multiple_op_hours:
-                    restaurant_operation = {"restaurant_name": row['Restaurant Name']}
-                    restaurant_operation.update(parse_operating_days(op_hours))
-                    restaurant_operation.update(parse_operating_time(op_hours))
-                    write_record(connection, row['Restaurant Name'], restaurant_operation)
-
-            else:
+    tot_lines = 0
+    for row in records:
+        tot_lines += 1
+        multiple_op_hours = row['Hours'].split("/")
+        if len(multiple_op_hours)>1:
+            for op_hours in multiple_op_hours:
                 restaurant_operation = {"restaurant_name": row['Restaurant Name']}
-                restaurant_operation.update(parse_operating_days(row['Hours']))
-                restaurant_operation.update(parse_operating_time(row['Hours']))
+                restaurant_operation.update(parse_operating_days(op_hours))
+                restaurant_operation.update(parse_operating_time(op_hours))
                 write_record(connection, row['Restaurant Name'], restaurant_operation)
 
+        else:
+            restaurant_operation = {"restaurant_name": row['Restaurant Name']}
+            restaurant_operation.update(parse_operating_days(row['Hours']))
+            restaurant_operation.update(parse_operating_time(row['Hours']))
+            write_record(connection, row['Restaurant Name'], restaurant_operation)
 
-
-        print(tot_lines)
+    print(tot_lines)
 
 
 if __name__ == '__main__':

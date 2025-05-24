@@ -1,0 +1,44 @@
+services:
+ db:
+   image: postgres:14
+   environment:
+     POSTGRES_DB: ${DB_NAME}
+     POSTGRES_USER: ${DB_USERNAME}
+     POSTGRES_PASSWORD: ${DB_PASSWORD}
+   ports:
+     - "5432:5432"
+   volumes:
+     - postgres_data:/var/lib/postgresql/data
+     - ./data/restaurants.csv:/docker-entrypoint-initdb.d/restaurants.csv
+     - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+   env_file:
+     - .env
+
+ django-web:
+   build: ./liine
+   container_name: django-docker
+   ports:
+     - "8000:8000"
+   depends_on:
+     - db
+   command: ["python", "data/etl_script.py"]
+   environment:
+     DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+     DEBUG: ${DEBUG}
+     DJANGO_LOGLEVEL: ${DJANGO_LOGLEVEL}
+     DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
+     DATABASE_ENGINE: ${DATABASE_ENGINE}
+     DATABASE_NAME: ${DB_NAME}
+     DATABASE_USERNAME: ${DB_USERNAME}
+     DATABASE_PASSWORD: ${DB_PASSWORD}
+     DATABASE_HOST: ${HOST_NAME}
+     DATABASE_PORT: ${HOST_PORT}
+   healthcheck:
+     test: [ "CMD-SHELL", "pg_isready -U user -d mydatabase" ]
+     interval: 5s
+     timeout: 5s
+     retries: 5
+   env_file:
+     - .env
+volumes:
+   postgres_data:
