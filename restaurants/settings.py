@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get("DEBUG", default=1))
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.0").split(",")
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1").split(",")
 # ["*"]
 
 
@@ -90,7 +90,7 @@ DATABASES = {
         'NAME': os.environ["DATABASE_NAME"],
         'USER': os.environ["DATABASE_USERNAME"],
         'PASSWORD': os.environ["DATABASE_PASSWORD"],
-        'HOST': 'db',
+        'HOST': os.environ["DATABASE_HOST"],
         'PORT': os.environ["DATABASE_PORT"],
     }
 }

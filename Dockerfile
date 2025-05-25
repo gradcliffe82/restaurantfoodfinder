@@ -28,7 +28,8 @@ COPY . /Liine/
 
 # Copy the CSV file into the container
 COPY data/restaurants.csv /tmp/restaurants.csv
-
+# Update package list and install PostgreSQL client
+RUN apt-get update && apt-get install -y postgresql-client
 # Run a Python script that processes the CSV
 # CMD ["python", "process_csv.py"]
 
@@ -36,4 +37,4 @@ COPY data/restaurants.csv /tmp/restaurants.csv
 EXPOSE 8000
 
 # Run Django’s development server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

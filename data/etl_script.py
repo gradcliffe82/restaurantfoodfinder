@@ -198,10 +198,12 @@ def main():
               "\t -readtable: read from raw table"
               "\t You can only read either from the csv or the table")
     if "-csv" in raw_args:
+        logger.info(f"Loading from csv file.")
         file_name = "/tmp/restaurants.csv"
         csv_file = open(file_name, 'r')
         records = csv.DictReader(csv_file)
     if "-rawtable" in raw_args:
+        logger.info(f"Loading from raw table.")
         records = get_all_records(connection)
 
     tot_lines = 0
@@ -214,17 +216,15 @@ def main():
                 restaurant_operation.update(parse_operating_days(op_hours))
                 restaurant_operation.update(parse_operating_time(op_hours))
                 write_record(connection, row['Restaurant Name'], restaurant_operation)
-
         else:
             restaurant_operation = {"restaurant_name": row['Restaurant Name']}
             restaurant_operation.update(parse_operating_days(row['Hours']))
             restaurant_operation.update(parse_operating_time(row['Hours']))
             write_record(connection, row['Restaurant Name'], restaurant_operation)
 
-    print(tot_lines)
+    logger.info(f"Total Lines processed: {tot_lines}")
 
 
 if __name__ == '__main__':
    main()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
