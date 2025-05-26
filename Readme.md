@@ -20,7 +20,7 @@ A web application that lets you query and find any open restaurants based on the
   * It will then run the python file: etl_script.py and transform the data to json format.
   * It will run makemigrations and migrate to create the models.
   * It will load data from the raw table into the application table.
-  * The script will only execute the etl process if the raw table does not exist.
+  * The script will only execute the etl process if the raw table is empty.
   * Finally, it will execute python manage.py runserver 0.0.0.0:8000
 
 
