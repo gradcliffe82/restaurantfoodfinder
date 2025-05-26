@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block homepageview %}
 <div class="container-lg ">
-    <p class="instructions">This application will find an open restaurant based on the current time!</p>
+    <p class="instructions">This application will find an open restaurant based on the current time or using a date/time string!</p>
     <div id="clock"></div>
     <div>
         <p class="instructions" >Select an option.</p>
@@ -13,7 +13,7 @@
                 <input type="radio" name="choice" value="user_input"> User text input</label>
             <br>
         </form>
-        <p class="instructions">You may use the following examples or formats:</p>
+        <p class="instructions">You may use the following date/time examples or formats:</p>
        <ul>
             <li>5/23/2025, 11:00:00 AM</li>
             <li>2025-05-23T10:23:00Z</li>
