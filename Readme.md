@@ -26,8 +26,8 @@ A web application that lets you query and find any open restaurants based on the
 
 ### To build container
 
-* Builds the django application image or docker file
-docker build --no-cache -t restaurant-finder . 
+* Builds the django application image or docker file:
+  * docker build --no-cache -t restaurant-finder . 
 
-* Builds the docker-compose file.
-docker compose up --build or docker compose up --build --force-recreate  
+* Builds the docker-compose file:
+  * docker compose up --build or docker compose up --build --force-recreate  
