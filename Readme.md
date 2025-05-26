@@ -13,7 +13,7 @@ A web application that lets you query and find any open restaurants based on the
 * Dockerfile - application image
 * init_app_data.sh - shell script which is used to create a raw table to load the csv file, perform the etl process and runs django.
   
-### ETL process
+### ETL process:
 * The restaurant.csv file is loaded and processed as the container initializes.
 * The shell script: init_app_data.sh is executed as the container starts, and it includes the following process:
   * The script will create a raw table called restaurants_raw, where it will copy the csv data.
@@ -24,7 +24,7 @@ A web application that lets you query and find any open restaurants based on the
   * Finally, it will execute python manage.py runserver 0.0.0.0:8000
 
 
-### To build container
+### To build container:
 
 * Builds the django application image or docker file:
   * docker build --no-cache -t restaurant-finder . 
