@@ -31,3 +31,16 @@ A web application that lets you query and find any open restaurants based on the
 
 * Builds the docker-compose file:
   * docker compose up --build or docker compose up --build --force-recreate  
+
+### Application Endpoint and UI:
+
+* UI/WebApp:
+  * cut and past the following address: 127.0.0.1:8000/home/restaurantfinder on your browser to view the UI
+  
+* Endpoint: 
+  * You may also issue a HTTP or REST request to the following endpoint:
+    * /home/restaurantfinder/search?timestamp=1747933582
+      * Returns data in json format.
+      * It can accept the following format:
+        * timestamp
+        * date/time string eg: "5/23/2025, 11:00:00 AM"
