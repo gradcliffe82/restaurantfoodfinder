@@ -128,7 +128,7 @@ def connect_db():
     Connects to the db and returns the connection object.
     :return:
     """
-
+    logger.info(f"Connecting to host db.")
     try:
         connection = psycopg2.connect(database=os.environ['DATABASE_NAME'], user=os.environ['DATABASE_USERNAME'],
                                       password=os.environ['DATABASE_PASSWORD'], host=os.environ['DATABASE_HOST'],
@@ -157,10 +157,10 @@ def write_record(connection, restaurant_name, op_data):
     """
     Writes a record to the table
     """
-
+    logger.info(f"Writing record: {op_data}")
     cursor = connection.cursor()
     try:
-        cursor.execute("""INSERT INTO restaurantfinder_restaurants (restaurant_ops) VALUES (%s)""", (json.dumps(op_data),))
+        cursor.execute("INSERT INTO restaurantfinder_restaurants (restaurant_ops) VALUES (%s)", (json.dumps(op_data),))
         connection.commit()
     except Exception as ex:
         logger.error(f"An error occurred while writing row. {ex}")
@@ -170,10 +170,10 @@ def get_all_records(connection):
     """
     executes an sql statement and retrieves records from table, restaurants_raw
     """
-
+    logger.info("Retrieving records from raw table.")
     cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
     try:
-        cursor.execute("""SELECT * FROM restaurants_raw""")
+        cursor.execute("SELECT * FROM restaurants_raw")
         return cursor.fetchall()
     except Exception as ex:
         logger.error(f"An error occurred while retrieving records. {ex}")
@@ -183,7 +183,7 @@ def main():
 
     approved_params = ["-csv", "-rawtable", "-help", "-h"]
     connection = connect_db()
-    # create_table(connection)
+
     raw_args = sys.argv[1:]
     proc_args = [r for r in raw_args if r in approved_params]
     if len(proc_args) > 1:
@@ -226,5 +226,8 @@ def main():
 
 
 if __name__ == '__main__':
-   main()
+    try:
+        main()
+    except Exception as ex:
+        logger.error(f"An unexpected error occured while running etl script: {ex}")
 

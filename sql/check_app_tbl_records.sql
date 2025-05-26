@@ -1,1 +1,1 @@
-select count (*) restaurantfinder_restaurants
+select count (*) from restaurantfinder_restaurants
