@@ -1,9 +1,9 @@
 
 ### Description:
-A web application that allows you to query and find any open restaurants based on the current date and time.
+A web application that lets you to query and find any open restaurants based on the current date and time.
 
 ### File contents:
-* * /data - contains the restaurant.csv file.
+* /data - contains the restaurant.csv file.
 * /module/etl_script.py - a python etl script. Reads from a raw table and transforms data into json.
 * /restaurantfinder - app.
 * /sql - contains sql scripts for table creation and other queries.
